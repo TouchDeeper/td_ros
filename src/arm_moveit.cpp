@@ -1,4 +1,4 @@
-#include "TdRosLib/arm_moveit.h"
+#include <td_ros/arm_moveit.h>
 namespace tdros{
     void toJointSpace(const std::string& planning_group, const std::vector<double>& joint_space){
         // MoveIt! operates on sets of joints called "planning groups" and stores them in an object called
