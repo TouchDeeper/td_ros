@@ -3,6 +3,7 @@
 namespace tdros{
 
     void SetPosition(ros::Publisher &chatter_pub, std::string model_name, Sophus::SE3d w_T_object, int loop_rate_ ){
+
         std::cout<<"set "<<model_name<<" in "<<w_T_object.log().transpose()<<std::endl;
         Eigen::Vector3d w_t_object = w_T_object.translation();
         Eigen::Quaternion<double> w_Q_object = Eigen::Quaternion<double>(w_T_object.rotationMatrix());
@@ -55,9 +56,13 @@ namespace tdros{
             }
         }
     }
-    void SpawnModel(ros::NodeHandle& nh, std::string path, std::string model_name){
+    void SpawnModel(ros::NodeHandle& nh, const std::string& path, const std::string& model_name){
         std::ifstream file;
         file.open(path);
+        if(!file){
+            std::cout<<"can't open "<<path<<std::endl;
+            exit(-1);
+        }
         gazebo_msgs::SpawnModel model;
         ros::ServiceClient client_spwn = nh.serviceClient< gazebo_msgs::SpawnModel> ("/gazebo/spawn_urdf_model");
         if (file.is_open()) {

@@ -13,5 +13,5 @@ namespace tdros{
     void SetPosition(ros::Publisher &chatter_pub, std::string model_name, Sophus::SE3d w_T_object, int loop_rate_ );
 // pause the gazebo
     void PauseGazebo(ros::NodeHandle &n);
-    void SpawnModel(ros::NodeHandle& nh, std::string path, std::string model_name);
+    void SpawnModel(ros::NodeHandle& nh, const std::string& path, const std::string& model_name);
 }
