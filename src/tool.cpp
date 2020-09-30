@@ -1,14 +1,15 @@
-#include "TdRosLib/tool.h"
+#include <td_ros/tool.h>
 
 namespace tdros{
 
-    void SetPosition(ros::Publisher &chatter_pub, std::string model_name, Sophus::SE3d w_T_object, int loop_rate_ ){
+    void SetPosition(ros::Publisher &chatter_pub, const std::string& model_name, const Sophus::SE3d& w_T_object, int loop_rate_, int count_sum ){
+
         std::cout<<"set "<<model_name<<" in "<<w_T_object.log().transpose()<<std::endl;
         Eigen::Vector3d w_t_object = w_T_object.translation();
         Eigen::Quaternion<double> w_Q_object = Eigen::Quaternion<double>(w_T_object.rotationMatrix());
         ros::Rate loop_rate(loop_rate_);
         int count = 0;
-        while (count <6)
+        while (count <count_sum)
         {
             // the position of falling
             gazebo_msgs::ModelState modelState;
@@ -55,9 +56,13 @@ namespace tdros{
             }
         }
     }
-    void SpawnModel(ros::NodeHandle& nh, std::string path, std::string model_name){
+    void SpawnModel(ros::NodeHandle& nh, const std::string& path, const std::string& model_name){
         std::ifstream file;
         file.open(path);
+        if(!file){
+            std::cout<<"can't open "<<path<<std::endl;
+            exit(-1);
+        }
         gazebo_msgs::SpawnModel model;
         ros::ServiceClient client_spwn = nh.serviceClient< gazebo_msgs::SpawnModel> ("/gazebo/spawn_urdf_model");
         if (file.is_open()) {
