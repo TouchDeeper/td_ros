@@ -6,17 +6,14 @@ This is a persoal ROS library include the commonly used functions in development
 sudo apt-get install ros-kinetic-sophus
 ```
 # Getting Started
-clone
+- clone
 ```
-git clone https://github.com/TouchDeeper/TdRosLib.git your_path/
+git clone https://github.com/TouchDeeper/td_ros.git [your_workspace]/src
 ```
 
-CMakeLists.txt
-```
-set(TdRosLib_PATH "your_path")
-add_library(TdRosLib SHARED ${TdRosLib_PATH}/src/tool.cpp ${TdRosLib_PATH}/src/arm_moveit.cpp)
-target_link_libraries(TdRosLib PRIVATE ${catkin_LIBRARIES} ${Boost_LIBRARIES})
-include_directories(${TdRosLib_PATH}/include)
 
-target_link_libraries(your_target TdRosLib)
-```
+- Modify the CMakeLists.txt of the package which depend on td_ros:
+    1. add `td_ros` to `find_package(... td_ros)`
+    2. add 'td_ros' to `catkin_package(... CATKIN_DEPENDS ... to_ros)`
+    3. add `<build_depend>td_ros</build_depend>` and `<exec_depend>td_ros</exec_depend>` in package.xml
+
