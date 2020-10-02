@@ -3,7 +3,7 @@
 namespace tdros{
 
 
-    void SetPosition(ros::Publisher &chatter_pub, std::string model_name, Sophus::SE3d w_T_object, int loop_rate_, int count_sum ){
+    void SetPosition(const ros::Publisher &chatter_pub, const std::string& model_name, const Sophus::SE3d& w_T_object, int loop_rate_, int count_sum ){
 
         std::cout<<"set "<<model_name<<" in "<<w_T_object.log().transpose()<<std::endl;
         Eigen::Vector3d w_t_object = w_T_object.translation();
