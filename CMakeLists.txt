@@ -70,9 +70,13 @@ include_directories(
 )
 
 ## Declare a C++ library
+file(GLOB TFListener src/tf_listener/*.cpp)
+file(GLOB Publisher src/publisher/*.cpp)
 add_library(td_ros
         src/tool.cpp
         src/arm_moveit.cpp
+        ${TFListener}
+        ${Publisher}
         )
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
