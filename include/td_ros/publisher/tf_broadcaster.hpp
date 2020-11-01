@@ -12,7 +12,7 @@
 #include <tf/transform_datatypes.h>
 #include <Eigen/Dense>
 
-namespace td_ros {
+namespace tdros {
 class TFBroadCaster {
   public:
     TFBroadCaster(std::string frame_id, std::string child_frame_id);

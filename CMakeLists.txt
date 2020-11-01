@@ -14,6 +14,7 @@ find_package(catkin REQUIRED COMPONENTS
         moveit_visual_tools
         moveit_ros_planning
         moveit_ros_planning_interface
+        tf
 #        eigen_conversions
 #        tf
         )
@@ -50,7 +51,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
         INCLUDE_DIRS include
         LIBRARIES td_ros
-        CATKIN_DEPENDS roscpp rospy std_msgs moveit_core
+        CATKIN_DEPENDS roscpp rospy std_msgs moveit_core tf
         moveit_core
         moveit_visual_tools
         moveit_ros_planning
