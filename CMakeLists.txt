@@ -15,10 +15,17 @@ find_package(catkin REQUIRED COMPONENTS
         moveit_ros_planning
         moveit_ros_planning_interface
         tf
+        gazebo_ros
 #        eigen_conversions
 #        tf
         )
 
+set(GeoGraphic_LIBRARIES "")
+#set(Glog_LIBRARIES "")
+
+#include(cmake/YAML.cmake)
+include(cmake/geographic.cmake)
+#include(cmake/glog.cmake)
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
 ################################################
@@ -51,11 +58,12 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
         INCLUDE_DIRS include
         LIBRARIES td_ros
-        CATKIN_DEPENDS roscpp rospy std_msgs moveit_core tf
+        CATKIN_DEPENDS roscpp rospy std_msgs tf
         moveit_core
         moveit_visual_tools
         moveit_ros_planning
         moveit_ros_planning_interface
+        gazebo_ros
         #  DEPENDS system_lib
 )
 
@@ -68,16 +76,21 @@ catkin_package(
 include_directories(
         include
         ${catkin_INCLUDE_DIRS}
+        ${GAZEBO_INCLUDE_DIRS}
 )
 
 ## Declare a C++ library
 file(GLOB TFListener src/tf_listener/*.cpp)
 file(GLOB Publisher src/publisher/*.cpp)
+file(GLOB Subscriber src/subscriber/*.cpp)
+file(GLOB SensorData src/sensor_data/*.cpp)
 add_library(td_ros
         src/tool.cpp
         src/arm_moveit.cpp
         ${TFListener}
         ${Publisher}
+        ${Subscriber}
+        ${SensorData}
         )
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
@@ -94,8 +107,12 @@ add_dependencies(td_ros ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TA
 #add_dependencies(register_object_client ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(td_ros
+target_link_libraries(td_ros PRIVATE
         ${catkin_LIBRARIES}
+        ${GAZEBO_LIBRARIES}
+        ${GeoGraphic_LIBRARIES}
+
+#        ${Glog_LIBRARIES}
         )
 #target_link_libraries(object_tf_broadcaster_node
 #        td_ros
@@ -113,28 +130,28 @@ target_link_libraries(td_ros
 # See http://ros.org/doc/api/catkin/html/adv_user_guide/variables.html
 
 ## Mark executables and/or libraries for installation
-install(TARGETS td_ros
-        ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-        LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-        RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-        )
-
-## Mark cpp header files for installation
-install(DIRECTORY include/${PROJECT_NAME}/
-        DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
-        FILES_MATCHING PATTERN "*.h"
-
-        )
-install(DIRECTORY include/${PROJECT_NAME}/
-        DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
-        FILES_MATCHING PATTERN "*.hpp"
-
-        )
-
-install(DIRECTORY launch/
-        DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-        FILES_MATCHING PATTERN "*.launch"
-        )
+#install(TARGETS td_ros
+#        ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+#        LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+#        RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+#        )
+#
+### Mark cpp header files for installation
+#install(DIRECTORY include/${PROJECT_NAME}/
+#        DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+#        FILES_MATCHING PATTERN "*.h"
+#
+#        )
+#install(DIRECTORY include/${PROJECT_NAME}/
+#        DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+#        FILES_MATCHING PATTERN "*.hpp"
+#
+#        )
+#
+#install(DIRECTORY launch/
+#        DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+#        FILES_MATCHING PATTERN "*.launch"
+#        )
 
 #############
 ## Testing ##

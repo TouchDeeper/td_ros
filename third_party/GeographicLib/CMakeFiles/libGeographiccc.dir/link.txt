@@ -1,0 +1,1 @@
+/usr/bin/c++ -fPIC  -fopenmp   -O3 -Wall   -shared -Wl,-soname,liblibGeographiccc.so -o /home/wang/CLionProjects/multi_sensor_fusion/L2/chapter_2/devel/lib/liblibGeographiccc.so CMakeFiles/libGeographiccc.dir/src/LocalCartesian.cpp.o CMakeFiles/libGeographiccc.dir/src/Geocentric.cpp.o CMakeFiles/libGeographiccc.dir/src/Math.cpp.o  -L/usr/local/cuda-10.0/lib64 

@@ -19,6 +19,7 @@ namespace tdros{
      * @param count_sum the publish count
      */
     void SetPosition(const ros::Publisher &chatter_pub, const std::string& model_name, const Sophus::SE3d& w_T_object, int loop_rate_, int count_sum );
+    void SetPosition(const ros::Publisher &chatter_pub, const std::string& model_name, const Eigen::Matrix4f& transform_matrix, int loop_rate_, int count_sum );
 // pause the gazebo
     void PauseGazebo(ros::NodeHandle &n);
     void SpawnModel(ros::NodeHandle& nh, const std::string& path, const std::string& model_name);

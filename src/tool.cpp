@@ -35,6 +35,39 @@ namespace tdros{
             ++count;
         }
     }
+    void SetPosition(const ros::Publisher &chatter_pub, const std::string& model_name, const Eigen::Matrix4f& transform_matrix, int loop_rate_, int count_sum ){
+
+        std::cout<<"set "<<model_name<<" in \n"<<transform_matrix<<std::endl;
+
+        Eigen::Quaternionf w_Q_object;
+        w_Q_object = transform_matrix.block<3,3>(0,0);
+        ros::Rate loop_rate(loop_rate_);
+        int count = 0;
+        while (count <count_sum)
+        {
+            // the position of falling
+            gazebo_msgs::ModelState modelState;
+            modelState.model_name = model_name;
+            modelState.pose.position.x = transform_matrix(0,3);
+            modelState.pose.position.y = transform_matrix(1,3);
+            modelState.pose.position.z = transform_matrix(2,3);
+            modelState.pose.orientation.w = w_Q_object.w();
+            modelState.pose.orientation.x = w_Q_object.x();
+            modelState.pose.orientation.y = w_Q_object.y();
+            modelState.pose.orientation.z = w_Q_object.z();
+
+            // 发布消息
+//                ROS_INFO("goal pose: %lf, %lf, %lf, %lf, %lf, %lf ",modelState.pose.position.x, modelState.pose.position.y, modelState.pose.position.z);
+            chatter_pub.publish(modelState);
+
+            // 循环等待回调函数
+            ros::spinOnce();
+
+            // 按照循环频率延时
+            loop_rate.sleep();
+            ++count;
+        }
+    }
     void PauseGazebo(ros::NodeHandle &n){
         ros::ServiceClient pauseGazebo = n.serviceClient<std_srvs::Empty>("/gazebo/pause_physics");
         std_srvs::Empty pauseSrv;
