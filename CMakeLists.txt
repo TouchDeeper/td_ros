@@ -25,6 +25,7 @@ set(GeoGraphic_LIBRARIES "")
 
 #include(cmake/YAML.cmake)
 include(cmake/geographic.cmake)
+#include(cmake/eigen.cmake)
 #include(cmake/glog.cmake)
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -73,11 +74,16 @@ catkin_package(
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
+# add Eigen header files
+include_directories( "/usr/local/include/eigen3" )
+#template sophus
+include_directories("/home/td/slam/install/sophus/include")
 include_directories(
         include
         ${catkin_INCLUDE_DIRS}
         ${GAZEBO_INCLUDE_DIRS}
 )
+
 
 ## Declare a C++ library
 file(GLOB TFListener src/tf_listener/*.cpp)
@@ -111,7 +117,6 @@ target_link_libraries(td_ros PRIVATE
         ${catkin_LIBRARIES}
         ${GAZEBO_LIBRARIES}
         ${GeoGraphic_LIBRARIES}
-
 #        ${Glog_LIBRARIES}
         )
 #target_link_libraries(object_tf_broadcaster_node

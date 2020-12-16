@@ -8,7 +8,7 @@
 #include <std_srvs/Empty.h>
 
 #include <Eigen/Core>
-#include <sophus/se3.hpp>
+#include "sophus/se3.hpp"
 namespace tdros{
     /**
      * set position of model
