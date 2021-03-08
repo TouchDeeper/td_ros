@@ -16,6 +16,7 @@ find_package(catkin REQUIRED COMPONENTS
         moveit_ros_planning_interface
         tf
         gazebo_ros
+        rosbag
 #        eigen_conversions
 #        tf
         )
@@ -65,6 +66,7 @@ catkin_package(
         moveit_ros_planning
         moveit_ros_planning_interface
         gazebo_ros
+        rosbag
         #  DEPENDS system_lib
 )
 
@@ -90,6 +92,8 @@ file(GLOB TFListener src/tf_listener/*.cpp)
 file(GLOB Publisher src/publisher/*.cpp)
 file(GLOB Subscriber src/subscriber/*.cpp)
 file(GLOB SensorData src/sensor_data/*.cpp)
+file(GLOB BagLib src/bag/*.cpp)
+
 add_library(td_ros
         src/tool.cpp
         src/arm_moveit.cpp
@@ -97,6 +101,7 @@ add_library(td_ros
         ${Publisher}
         ${Subscriber}
         ${SensorData}
+        ${BagLib}
         )
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries

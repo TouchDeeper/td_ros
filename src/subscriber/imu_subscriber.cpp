@@ -42,4 +42,4 @@ void IMUSubscriber::ParseData(std::deque<IMUData>& imu_data_buff) {
     }
     buff_mutex_.unlock();
 }
-}
+} //namespace tdros
